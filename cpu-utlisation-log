@@ -1,0 +1,2 @@
+usage=$(mpstat | awk '$3 ~ /[0-9.]+/ { print 100 - $3"%" }')
+echo "$(date): $usage" >> cpu_usage.log
