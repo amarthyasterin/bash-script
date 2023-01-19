@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Set threshold for CPU usage
+threshold=80
+
+# Continuously log CPU usage
+while true; do
+  # Get current CPU usage
+  usage=$(top -b -n1 | grep "Cpu(s)" | awk '{print $2 + $4}')
+  
+  # Log current usage to a file
+  echo "$(date): $usage" >> cpu_usage.log
+  
+  # Check if usage exceeds threshold
+  if [ "$usage" -gt "$threshold" ]; then
+    # Send alarm
+    echo "CPU usage exceeded threshold of $threshold at $(date)" | mail -s "CPU Usage Alert" admin@example.com
+  fi
+  
+  # Sleep for a minute before checking usage again
+  sleep 60
+done
