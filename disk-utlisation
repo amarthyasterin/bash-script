@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Set threshold for disk usage
+threshold=90
+
+# Get current disk usage
+usage=$(df -h | grep /dev/xvda1 | awk '{print $5}' | cut -d'%' -f1)
+
+# Check if usage exceeds threshold
+if [ "$usage" -gt "$threshold" ]; then
+    # Send alarm
+    echo "Disk usage exceeded threshold of $threshold at $(date)" | mail -s "Disk Usage Alert" admin@example.com
+fi
